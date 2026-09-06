@@ -1,0 +1,12 @@
+{
+  "name": "agentflow-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agentic AI Automation Platform (Agentflow_AI)",
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "node -e \"const { spawn } = require('child_process'); const s = spawn('npm', ['run', 'dev'], { cwd: 'server', shell: true, stdio: 'inherit' }); const c = spawn('npm', ['run', 'dev'], { cwd: 'client', shell: true, stdio: 'inherit' }); process.on('SIGINT', () => { s.kill(); c.kill(); process.exit(); });\""
+  }
+}
