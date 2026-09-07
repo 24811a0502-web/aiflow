@@ -3,10 +3,23 @@ const path = require('path');
 
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
+const clientUrls = (process.env.CLIENT_URL || 'http://localhost:3000')
+  .split(',')
+  .map((url) => url.trim().replace(/\/$/, ''))
+  .filter(Boolean);
+
 const env = {
   NODE_ENV: process.env.NODE_ENV || 'development',
   PORT: parseInt(process.env.PORT || '5000', 10),
-  CLIENT_URL: process.env.CLIENT_URL || 'http://localhost:3000',
+  CLIENT_URL: clientUrls[0] || 'http://localhost:3000',
+  ALLOWED_ORIGINS: [
+    ...new Set([
+      ...clientUrls,
+      'https://aiflow-two.vercel.app',
+      'http://localhost:3000',
+      'http://127.0.0.1:3000',
+    ]),
+  ],
   MONGO_URI: process.env.MONGO_URI || 'mongodb://localhost:27017/agentflow',
   JWT_SECRET: process.env.JWT_SECRET || 'fallback_secret_for_agentflow_dev_only_32char_key',
   JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
